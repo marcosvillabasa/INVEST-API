@@ -26,10 +26,13 @@ mongoose.connection.openUri('mongodb://localhost:27017/InvestDB', (err, res) => 
 //importar rutas
 var appRoutes = require('./rutas/app');
 var usuarioRoutes = require('./rutas/usuario');
+var loginRoutes = require('./rutas/login');
+
 
 //rutas
 app.use('/', appRoutes);
 app.use('/usuarios', usuarioRoutes);
+app.use('/login', loginRoutes);
 
 //Escuchar peticiones
 app.listen(3000, () => {
