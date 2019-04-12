@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
 const bcrypt = require('bcryptjs');
+const request = require('request');
 
 var Usuario = require('../modelos/usuario');
+var mdAutenticacion = require('../middleware/autenticacion');
 
 //Obtener Usuarios
 app.get('/', (req, res, next) => {
@@ -29,8 +31,9 @@ app.get('/', (req, res, next) => {
 
 });
 
+
 //crear usuarios
-app.post('/', (req, res) => {
+app.post('/', mdAutenticacion.verificaToken, (req, res) => {
 
     var body = req.body;
 
@@ -52,13 +55,15 @@ app.post('/', (req, res) => {
 
         res.status(201).json({
             ok: true,
-            mensaje: 'usuario creado',
-            usuario: usuarioGuardado
+            usuario: usuarioGuardado,
+            usuarioToken: req.usuario
         });
     });
 
+    res.render('/usuario/registro');
 
 });
+
 
 
 module.exports = app;
